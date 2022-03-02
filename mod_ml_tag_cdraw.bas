@@ -15,20 +15,23 @@ Dim TAG4 As tagPosType
 'tagsPos(1).x = c(56.205, cdrMillimeter, cdrInch)
 
 Public Sub openMainForm()
-
+Const LV1 As Double = 6.59      ' guia vertical 1
+Const LV2 As Double = 110.45    ' guia vertical 2
+Const LH1 As Double = 276       ' guia horizontal 1
+Const LH2 As Double = 136.402   ' guia horizontal 2
 
 '1
-    TAG1.x = ConvertUnits(6.59, cdrMillimeter, cdrInch)
-    TAG1.y = ConvertUnits(278.55, cdrMillimeter, cdrInch)
+    TAG1.x = ConvertUnits(LV1, cdrMillimeter, cdrInch)
+    TAG1.y = ConvertUnits(LH1, cdrMillimeter, cdrInch)
 '2
-    TAG2.x = ConvertUnits(110.45, cdrMillimeter, cdrInch)
-    TAG2.y = ConvertUnits(278.55, cdrMillimeter, cdrInch)
+    TAG2.x = ConvertUnits(LV2, cdrMillimeter, cdrInch)
+    TAG2.y = ConvertUnits(LH1, cdrMillimeter, cdrInch)
 '3
-    TAG3.x = ConvertUnits(6.59, cdrMillimeter, cdrInch)
-    TAG3.y = ConvertUnits(136.402, cdrMillimeter, cdrInch)
+    TAG3.x = ConvertUnits(LV1, cdrMillimeter, cdrInch)
+    TAG3.y = ConvertUnits(LH2, cdrMillimeter, cdrInch)
 '4
-    TAG4.x = ConvertUnits(110.45, cdrMillimeter, cdrInch)
-    TAG4.y = ConvertUnits(136.402, cdrMillimeter, cdrInch)
+    TAG4.x = ConvertUnits(LV2, cdrMillimeter, cdrInch)
+    TAG4.y = ConvertUnits(LH2, cdrMillimeter, cdrInch)
     frmMainDraw.Show vbModeless
 End Sub
 
@@ -39,7 +42,83 @@ Sub cls_doc()
     ActiveSelection.Cut
 End Sub
 
+Function getLastTmpCPT()
+    Dim tmpPath As String
+    Dim FileName As String
+    Dim Directory As String
+    Dim MostRecentFile As String
+    Dim MostRecentDate As Date
+    Dim FileSpec As String
+    
+    ' retorna "" se não existir
+    getLastTmpCPT = ""
+    
+    tmpPath = Environ("Temp")
+    
+    'Specify the file type, if any
+    FileSpec = "*.tmp"
+    'specify the directory
+    Directory = tmpPath & "\"
+    FileName = Dir(Directory & FileSpec)
+    
+    If FileName <> "" Then
+        MostRecentFile = FileName
+        MostRecentDate = FileDateTime(Directory & FileName)
+        Do While FileName <> ""
+            If FileDateTime(Directory & FileName) > MostRecentDate And InStr(1, FileName, "-crl-") > 0 Then
+                 MostRecentFile = FileName
+                 MostRecentDate = FileDateTime(Directory & FileName)
+            End If
+            FileName = Dir
+        Loop
+    End If
+    
+    getLastTmpCPT = MostRecentFile
+
+End Function
+
+
+Sub clipBoardPaste()
+    ' Recorded 02/03/22
+    ' Recording of this command is not supported
+    Dim lastTmpCPT As String
+    
+    lastTmpCPT = getLastTmpCPT
+    
+    If Len(lastTmpCPT) > 0 Then
+        Dim impopt As StructImportOptions
+        Set impopt = CreateStructImportOptions
+        With impopt
+            .Mode = cdrImportFull
+            With .ColorConversionOptions
+                .SourceColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
+                .TargetColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
+            End With
+        End With
+        Dim impflt As ImportFilter
+
+        Set impflt = ActiveLayer.ImportEx(Environ("Temp") & "\" & lastTmpCPT, cdrCPT, impopt)
+        impflt.Finish
+        Dim s1 As Shape
+        Set s1 = ActiveShape
+        Dim pasteopt As StructPasteOptions
+        Set pasteopt = CreateStructPasteOptions
+        With pasteopt.ColorConversionOptions
+            .SourceColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
+            .TargetColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
+        End With
+    
+        'Dim Paste1 As ShapeRange
+        'Set Paste1 = ActiveLayer.PasteEx(pasteopt)
+    End If
+End Sub
+
 Sub pos_tag_1()
+    
+    If Not frmMainDraw.cbMover Then
+        clipBoardPaste
+    End If
+    
     Dim OrigSelection As ShapeRange
     Set OrigSelection = ActiveSelectionRange
     ActiveDocument.ReferencePoint = cdrTopLeft
@@ -47,6 +126,11 @@ Sub pos_tag_1()
 End Sub
 
 Sub pos_tag_2()
+
+    If Not frmMainDraw.cbMover Then
+        clipBoardPaste
+    End If
+
     Dim OrigSelection As ShapeRange
     Set OrigSelection = ActiveSelectionRange
     ActiveDocument.ReferencePoint = cdrTopLeft
@@ -54,6 +138,11 @@ Sub pos_tag_2()
 End Sub
 
 Sub pos_tag_3()
+
+    If Not frmMainDraw.cbMover Then
+        clipBoardPaste
+    End If
+
     Dim OrigSelection As ShapeRange
     Set OrigSelection = ActiveSelectionRange
     ActiveDocument.ReferencePoint = cdrTopLeft
@@ -61,6 +150,11 @@ Sub pos_tag_3()
 End Sub
 
 Sub pos_tag_4()
+
+    If Not frmMainDraw.cbMover Then
+        clipBoardPaste
+    End If
+
     Dim OrigSelection As ShapeRange
     Set OrigSelection = ActiveSelectionRange
     ActiveDocument.ReferencePoint = cdrTopLeft

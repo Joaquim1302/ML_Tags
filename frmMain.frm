@@ -34,10 +34,6 @@ Private Sub CheckBox1_Click()
 
 End Sub
 
-Private Sub op_jadlog_Click()
-
-End Sub
-
 Private Sub OptionButton1_Click()
 
 End Sub
