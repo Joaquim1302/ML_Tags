@@ -86,6 +86,7 @@ Sub clipBoardPaste()
     lastTmpCPT = getLastTmpCPT
     
     If Len(lastTmpCPT) > 0 Then
+    
         Dim impopt As StructImportOptions
         Set impopt = CreateStructImportOptions
         With impopt
@@ -95,21 +96,11 @@ Sub clipBoardPaste()
                 .TargetColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
             End With
         End With
+        
         Dim impflt As ImportFilter
-
         Set impflt = ActiveLayer.ImportEx(Environ("Temp") & "\" & lastTmpCPT, cdrCPT, impopt)
         impflt.Finish
-        Dim s1 As Shape
-        Set s1 = ActiveShape
-        Dim pasteopt As StructPasteOptions
-        Set pasteopt = CreateStructPasteOptions
-        With pasteopt.ColorConversionOptions
-            .SourceColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
-            .TargetColorProfileList = "sRGB IEC61966-2.1,U.S. Web Coated (SWOP) v2,Dot Gain 20%"
-        End With
-    
-        'Dim Paste1 As ShapeRange
-        'Set Paste1 = ActiveLayer.PasteEx(pasteopt)
+
     End If
 End Sub
 
