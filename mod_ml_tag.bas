@@ -44,6 +44,15 @@ End Function
 
 Public Sub redimdoc()
     With ActiveDocument.Application.CorelScript
+    ' redimensiona 600 x 600
+        .ImageResample 7018, 4960, 600, 600, True
+    End With
+
+    With ActiveDocument.Application.CorelScript
+    ' redimendiona imagem
+        .ImageResample 0, 6535, 3491, 3526, 2039
+    End With
+    With ActiveDocument.Application.CorelScript
     ' recorte superior
         .ImageDeskewCrop 0, 6535, 3491, 3526, 2039
     End With
