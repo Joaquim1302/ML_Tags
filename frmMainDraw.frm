@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} frmMainDraw 
    Caption         =   "Tags Mercado Livre"
-   ClientHeight    =   4155
+   ClientHeight    =   4695
    ClientLeft      =   13125
    ClientTop       =   5460
    ClientWidth     =   3345
@@ -32,6 +32,10 @@ End Sub
 
 Private Sub bt_tag_4_Click()
     pos_tag_4
+End Sub
+
+Private Sub bt_print_pdf_Click()
+    print_pdf
 End Sub
 
 Private Sub UserForm_Activate()

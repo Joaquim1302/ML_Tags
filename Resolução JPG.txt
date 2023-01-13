@@ -1,0 +1,3 @@
+Largura: 7010
+Altura: 4958
+Resolução: 600x600 dpi

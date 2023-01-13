@@ -82,7 +82,7 @@ Dim m As rectMaskType
         .p1.x = p0.x
         .p1.y = 2012 '2272 ESTAVA ERRADA OU FORMATO FOI ALTERADO
         .p2.x = p0.x + RECTMASK.L
-        .p2.y = .p1.y + 697
+        .p2.y = .p1.y + 787   ' 697
     End With
     With ActiveDocument.Application.CorelScript
         .MaskRectangle m.p1.x, m.p1.y, m.p2.x, m.p2.y, 0

@@ -152,6 +152,13 @@ Sub pos_tag_4()
     OrigSelection.SetPosition TAG4.x, TAG4.y
 End Sub
 
+Sub print_pdf()
+    With ActiveDocument.PrintSettings
+        .SelectPrinter "Microsoft Print to PDF"
+    End With
+    ActiveDocument.PrintOut
+End Sub
+
 Private Sub DrawEllipse(s As Shape)
   ActiveDocument.ActiveLayer.CreateEllipse2 s.PositionX, s.PositionY, 0.1
 End Sub
